@@ -1,7 +1,6 @@
-import ffmpeg
-
-
 from typing import Any, NamedTuple
+
+import ffmpeg
 
 
 class SFX(NamedTuple):

@@ -1,14 +1,12 @@
-from broken_silence.sfx import SFX
-from broken_silence.time import Time
-
-
-import ffmpeg
-
-
 import glob
 import random
 from io import TextIOWrapper
 from pathlib import Path
+
+import ffmpeg
+
+from broken_silence.sfx import SFX
+from broken_silence.time import Time
 
 
 def create_broken_silence(
@@ -18,8 +16,36 @@ def create_broken_silence(
     out_name: str,
     img_file: str,
     sounds_glob: str,
-    log_buffer: TextIOWrapper,
 ):
+    with open(f"{out_name}.txt", "w") as logger:
+        print("Output duration:", Time.format(out_dur, show_zeros=True), file=logger)
+        print("Minimum delay:", Time.format(min_delay, show_zeros=True), file=logger)
+        print("Maximum delay:", Time.format(max_delay, show_zeros=True), file=logger)
+        print("Image:", img_file, file=logger)
+        print("Sounds:", sounds_glob, file=logger)
+        print(file=logger)
+
+        _create_broken_silence(
+            out_dur,
+            min_delay,
+            max_delay,
+            out_name,
+            img_file,
+            sounds_glob,
+            logger,
+        )
+
+
+def _create_broken_silence(
+    out_dur: float,
+    min_delay: float,
+    max_delay: float,
+    out_name: str,
+    img_file: str,
+    sounds_glob: str,
+    logger: TextIOWrapper,
+):
+
     sfxs: list[SFX] = [SFX.from_path(sfx_file) for sfx_file in glob.glob(sounds_glob, recursive=True)]
 
     res_dur = 0.0
@@ -34,7 +60,7 @@ def create_broken_silence(
 
         if res_dur + sfx.dur < out_dur:
             sfx_path = Path(sfx.file)
-            print(f"{Time.format(int(res_dur), True)}) {sfx_path.name}", file=log_buffer)
+            print(f"{Time.format(int(res_dur), True)}) {sfx_path.name}", file=logger)
             res_dur += sfx.dur
 
         silence_dur = round(random.random() * (max_delay - min_delay) + min_delay, 2)
