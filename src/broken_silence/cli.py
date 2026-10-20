@@ -5,7 +5,7 @@ from broken_silence.time import Time
 
 
 def main():
-    parser = ArgumentParser()
+    parser = ArgumentParser("uv run cli")
 
     parser.add_argument("out_dur", help="Output duration in hh:mm:ss format")
     parser.add_argument("min_delay", help="Minimum delay in hh:mm:ss format")
@@ -15,7 +15,7 @@ def main():
     parser.add_argument(
         "-s",
         "--sounds-glob",
-        help="Glob pattern used to collect all sound effects for the video",
+        help="Glob pattern used to collect all sound effects for the video (default: sounds/*.mp3)",
         default="sounds/*.mp3",
     )
 
