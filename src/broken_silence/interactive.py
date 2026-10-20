@@ -7,7 +7,7 @@ def main():
     min_delay = input("Minimum delay> ")
     max_delay = input("Maximum delay> ")
     img_file = input("Image file> ")
-    sounds_glob = input("Sounds (default: *.mp3)> ") or "*.mp3"
+    sounds_glob = input("Sounds (default: sounds/*.mp3)> ") or "sounds/*.mp3"
     out_name = input("Output name> ")
 
     with open(f"{out_name}.txt", "w") as log:

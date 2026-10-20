@@ -16,7 +16,7 @@ def main():
         "-s",
         "--sounds-glob",
         help="Glob pattern used to collect all sound effects for the video",
-        default="*.mp3",
+        default="sounds/*.mp3",
     )
 
     args = parser.parse_args()
